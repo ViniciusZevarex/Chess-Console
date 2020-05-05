@@ -16,5 +16,6 @@ namespace board
             AmtMoviments = 0;
             Board = board;
         }
+
     }
 }

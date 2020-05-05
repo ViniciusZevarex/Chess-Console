@@ -7,7 +7,9 @@ namespace ChessConsole
     {
         static void Main(string[] args)
         {
-            
+            Board board = new Board(8, 8);
+
+            Display.ToDisplayBoard(board);
         }
     }
 }
