@@ -11,6 +11,7 @@ namespace ChessConsole
             {
                 for (int j = 0; j < board.Column; j++)
                 {
+                    //if ternário para verificar se há peças nessa posição
                     Console.Write(
                         (board.getPiece(i,j) != null ) 
                         ? board.getPiece(i,j) + " " 

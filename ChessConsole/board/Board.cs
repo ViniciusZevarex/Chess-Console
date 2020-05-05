@@ -17,5 +17,11 @@
         {
             return Pieces[row, column];
         }
+
+        public void ToSetPiece(Piece p, Position pos)
+        {
+            p.Position = pos;
+            Pieces[pos.Row, pos.Column] = p;
+        }
     }
 }
