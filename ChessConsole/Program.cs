@@ -8,7 +8,7 @@ namespace ChessConsole
     {
         static void Main(string[] args)
         {
-            /* try
+            try
              {
                  Board board = new Board(8, 8);
 
@@ -16,18 +16,15 @@ namespace ChessConsole
                  board.ToSetPiece(new Tower(board, Color.Black), new Position(1, 3));
                  board.ToSetPiece(new King(board, Color.Black), new Position(2, 4));
 
+                 board.ToSetPiece(new King(board, Color.White), new Position(3, 5));
+                 board.ToSetPiece(new King(board, Color.White), new Position(6, 4));
+
                  Display.ToDisplayBoard(board);
              }
              catch (BoardException e)
              {
                  Console.WriteLine("Error: " + e.Message);
              }
-             */
-
-            ChessPosition pos = new ChessPosition('a', 1);
-
-            Console.WriteLine(pos.ToPosition());
-            Console.WriteLine(pos.ToString());
         }
     }
 }
