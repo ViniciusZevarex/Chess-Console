@@ -32,7 +32,10 @@ namespace chess
         {
             Board.ToSetPiece(new Tower(Board, Color.Black), new ChessPosition('c', 1).ToPosition());
 
-            Board.ToSetPiece(new Tower(Board, Color.White), new ChessPosition('c', 8).ToPosition());
+            Board.ToSetPiece(new King(Board, Color.White), new ChessPosition('c', 8).ToPosition());
+            Board.ToSetPiece(new King(Board, Color.White), new ChessPosition('c', 7).ToPosition());
+            Board.ToSetPiece(new King(Board, Color.White), new ChessPosition('c', 6).ToPosition());
+            Board.ToSetPiece(new King(Board, Color.White), new ChessPosition('c', 5).ToPosition());
 
         }
     }
