@@ -31,8 +31,13 @@
 
         public void ToSetPiece(Piece p, Position pos)
         {
-            p.Position = pos;
+            if (IsSetPiece(pos))
+            {
+                throw new BoardException("Already there is a piece in this position!");
+            }
+            
             Pieces[pos.Row, pos.Column] = p;
+            p.Position = pos;
         }
 
         public bool ValidPosition(Position pos)

@@ -7,14 +7,14 @@ namespace ChessConsole
     {
         public static void ToDisplayBoard(Board board)
         {
-            for (int i = 0; i < board.Row; i++)
+            for (int i = 0; i < board.Rows; i++)
             {
-                for (int j = 0; j < board.Column; j++)
+                for (int j = 0; j < board.Columns; j++)
                 {
                     //if ternário para verificar se há peças nessa posição
                     Console.Write(
-                        (board.getPiece(i,j) != null ) 
-                        ? board.getPiece(i,j) + " " 
+                        (board.GetPiece(i,j) != null ) 
+                        ? board.GetPiece(i,j) + " " 
                         : "- "
                         );
                 }
