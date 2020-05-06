@@ -17,5 +17,10 @@ namespace board
             Board = board;
         }
 
+        public void UpdateAmtMoviments()
+        {
+            AmtMoviments++;
+        }
+
     }
 }

@@ -10,16 +10,25 @@ namespace ChessConsole
         {
             try
              {
-                 Board board = new Board(8, 8);
+                ChessMatch match = new ChessMatch();
 
-                 board.ToSetPiece(new Tower(board, Color.Black), new Position(0, 0));
-                 board.ToSetPiece(new Tower(board, Color.Black), new Position(1, 3));
-                 board.ToSetPiece(new King(board, Color.Black), new Position(2, 4));
+                while (!match.Finished)
+                {
+                    Console.Clear();
 
-                 board.ToSetPiece(new King(board, Color.White), new Position(3, 5));
-                 board.ToSetPiece(new King(board, Color.White), new Position(6, 4));
+                    Display.ToDisplayBoard(match.Board);
 
-                 Display.ToDisplayBoard(board);
+                    Console.WriteLine();
+                    Console.Write("Origem: ");
+                    Position origin = Display.ReadChessPosition().ToPosition();
+
+                    Console.Write("Destino: ");
+                    Position destiny = Display.ReadChessPosition().ToPosition();
+
+                    match.ToMove(origin, destiny);
+                }
+
+                 
              }
              catch (BoardException e)
              {

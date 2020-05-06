@@ -40,6 +40,18 @@
             p.Position = pos;
         }
 
+        public Piece ToRemovePiece(Position p)
+        {
+            if (GetPiece(p) == null)
+            {
+                return null;
+            }
+            Piece aux = GetPiece(p);
+            aux.Position = null;
+            Pieces[p.Row, p.Column] = null;
+            return aux;
+        }
+
         public bool ValidPosition(Position pos)
         {
             return !(
