@@ -201,7 +201,7 @@ namespace chess
 
         public void ValidateDestinyPosition(Position origin, Position destiny)
         {
-            if (!Board.GetPiece(origin).CanMoveTo(destiny))
+            if (!Board.GetPiece(origin).PossibleMoviment(destiny))
             {
                 throw new BoardException("Invalid destiny position!");
             }
@@ -249,12 +249,42 @@ namespace chess
 
         public void initializePieces()
         {
-            ToSetNewPiece('c', 1, new Tower(Board, Color.White));
-            ToSetNewPiece('d', 1, new King(Board, Color.White));
-            ToSetNewPiece('h', 7, new Tower(Board, Color.White));
+            ToSetNewPiece('a', 1, new Tower(Board, Color.White));
+            ToSetNewPiece('b', 1, new Horse(Board, Color.White));
+            ToSetNewPiece('c', 1, new Bishop(Board, Color.White));
+            ToSetNewPiece('d', 1, new Queen(Board, Color.White));
+            ToSetNewPiece('e', 1, new King(Board, Color.White));
+            ToSetNewPiece('f', 1, new Bishop(Board, Color.White));
+            ToSetNewPiece('g', 1, new Horse(Board, Color.White));
+            ToSetNewPiece('h', 1, new Tower(Board, Color.White));
+            ToSetNewPiece('a', 2, new Pawn(Board, Color.White));
+            ToSetNewPiece('b', 2, new Pawn(Board, Color.White));
+            ToSetNewPiece('c', 2, new Pawn(Board, Color.White));
+            ToSetNewPiece('d', 2, new Pawn(Board, Color.White));
+            ToSetNewPiece('e', 2, new Pawn(Board, Color.White));
+            ToSetNewPiece('f', 2, new Pawn(Board, Color.White));
+            ToSetNewPiece('g', 2, new Pawn(Board, Color.White));
+            ToSetNewPiece('h', 2, new Pawn(Board, Color.White));
 
-            ToSetNewPiece('a', 8, new King(Board, Color.Black));
-            ToSetNewPiece('b', 8, new Tower(Board, Color.Black));
+
+
+            ToSetNewPiece('a', 8, new Tower(Board, Color.Black));
+            ToSetNewPiece('b', 8, new Horse(Board, Color.Black));
+            ToSetNewPiece('c', 8, new Bishop(Board, Color.Black));
+            ToSetNewPiece('d', 8, new Queen(Board, Color.Black));
+            ToSetNewPiece('e', 8, new King(Board, Color.Black));
+            ToSetNewPiece('f', 8, new Bishop(Board, Color.Black));
+            ToSetNewPiece('g', 8, new Horse(Board, Color.Black));
+            ToSetNewPiece('h', 8, new Tower(Board, Color.Black));
+            ToSetNewPiece('a', 7, new Pawn(Board, Color.Black));
+            ToSetNewPiece('b', 7, new Pawn(Board, Color.Black));
+            ToSetNewPiece('c', 7, new Pawn(Board, Color.Black));
+            ToSetNewPiece('d', 7, new Pawn(Board, Color.Black));
+            ToSetNewPiece('e', 7, new Pawn(Board, Color.Black));
+            ToSetNewPiece('f', 7, new Pawn(Board, Color.Black));
+            ToSetNewPiece('g', 7, new Pawn(Board, Color.Black));
+            ToSetNewPiece('h', 7, new Pawn(Board, Color.Black));
+
         }
     }
 }

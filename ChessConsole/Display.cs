@@ -83,6 +83,7 @@ namespace ChessConsole
 
             for (int i = 0; i < board.Rows; i++)
             {
+                Console.BackgroundColor = OriginalBackgroundColor;
                 Console.Write(8 - i + " ");
                 for (int j = 0; j < board.Columns; j++)
                 {
