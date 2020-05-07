@@ -1,5 +1,7 @@
 ﻿using board;
 using System;
+using System.Collections.Generic;
+using System.Threading.Channels;
 
 namespace chess
 {
@@ -9,6 +11,8 @@ namespace chess
         public Color CurrentPlayer { get; private set; }
         public int Turn { get; private set; }
         public bool Finished { get; set; }
+        public HashSet<Piece> Pieces { get; set; }
+        public HashSet<Piece> Captureds { get; set; }
 
         public ChessMatch()
         {
@@ -16,6 +20,9 @@ namespace chess
             Turn = 1;
             CurrentPlayer = Color.White;
             Finished = false;
+            Pieces = new HashSet<Piece>();
+            Captureds = new HashSet<Piece>();
+
             initializePieces();
         }
 
@@ -23,10 +30,30 @@ namespace chess
         {
             Piece p = Board.ToRemovePiece(origin);
             p.UpdateAmtMoviments();//update amount moviments of this piece
-            Piece capturedPiece = Board.ToRemovePiece(origin); //to controll the capitured pieces
-
+            Piece capturedPiece = Board.ToRemovePiece(destiny); //to controll the capitured 
             Board.ToSetPiece(p, destiny);
+
+            if (capturedPiece != null)
+            {
+                Captureds.Add(capturedPiece);
+            }
         }
+
+        public HashSet<Piece> CapituredPieces(Color color)
+        {
+            HashSet<Piece> aux = new HashSet<Piece>();
+
+            foreach(Piece x in Captureds)
+            {
+                if (x.Color == color)
+                {
+                    aux.Add(x);
+                }
+            }
+
+            return aux;
+        }
+
 
         public void ToPlay(Position origin, Position destiny)
         {
@@ -63,24 +90,30 @@ namespace chess
             }
         }
 
-        public void ValidateDestinyPosition(Position origin, Position destininy)
+        public void ValidateDestinyPosition(Position origin, Position destiny)
         {
-            if (!Board.GetPiece(origin).CanMoveTo(destininy))
+            if (!Board.GetPiece(origin).CanMoveTo(destiny))
             {
                 throw new BoardException("Invalid destiny position!");
             }
         }
 
 
+        public void ToSetNewPiece(char column, int row, Piece piece)
+        {
+            Board.ToSetPiece(piece, new ChessPosition(column, row).ToPosition());
+            Pieces.Add(piece);
+        }
+
         public void initializePieces()
         {
-            Board.ToSetPiece(new Tower(Board, Color.Black), new ChessPosition('c', 1).ToPosition());
+            ToSetNewPiece('c', 1, new Tower(Board, Color.Black));
+            ToSetNewPiece('b', 2, new Tower(Board, Color.Black));
+            ToSetNewPiece('a', 3, new Tower(Board, Color.Black));
 
-            Board.ToSetPiece(new King(Board, Color.White), new ChessPosition('c', 8).ToPosition());
-            Board.ToSetPiece(new King(Board, Color.White), new ChessPosition('c', 7).ToPosition());
-            Board.ToSetPiece(new King(Board, Color.White), new ChessPosition('c', 6).ToPosition());
-            Board.ToSetPiece(new King(Board, Color.White), new ChessPosition('c', 5).ToPosition());
-
+            ToSetNewPiece('d', 8, new King(Board, Color.White));
+            ToSetNewPiece('e', 7, new King(Board, Color.White));
+            ToSetNewPiece('f', 6, new King(Board, Color.White));
         }
     }
 }

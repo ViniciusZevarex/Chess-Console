@@ -1,11 +1,51 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Reflection.PortableExecutable;
+using System.Security.Cryptography.X509Certificates;
 using board;
 using chess;
+using Microsoft.VisualBasic.CompilerServices;
 
 namespace ChessConsole
 {
     class Display
     {
+
+        public static void ToDisplayMatch(ChessMatch match)
+        {
+            ToDisplayBoard(match.Board);
+            Console.WriteLine();
+
+            ToDisplayCapturedPieces(match);
+
+
+            Console.WriteLine("Turno: " + match.Turn);
+            Console.WriteLine("Aguardando jogada: " + match.CurrentPlayer);
+        }
+
+
+        public static void ToDisplayCapturedPieces(ChessMatch match)
+        {
+            Console.WriteLine("Peças capturadas: ");
+            Console.Write("Branca: ");
+            CapturedPieces(match.CapituredPieces(Color.White));
+            Console.WriteLine();
+            Console.Write("Pretas: ");
+            CapturedPieces(match.CapituredPieces(Color.Black));
+            Console.WriteLine();
+        }
+
+        public static void CapturedPieces(HashSet<Piece> hashset)
+        {
+            Console.Write("{");
+
+            foreach (Piece item in hashset)
+            {
+                Console.Write(item + " ");
+            }
+            Console.Write("}");
+        }
+
         public static void ToDisplayBoard(Board board)
         {
             for (int i = 0; i < board.Rows; i++)
