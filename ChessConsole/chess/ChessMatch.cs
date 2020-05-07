@@ -1,6 +1,7 @@
 ﻿using board;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Reflection.PortableExecutable;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Channels;
@@ -65,8 +66,17 @@ namespace chess
                 Check = false;
             }
 
-            Turn++;
-            ChangePlyaer();
+            if (IsInCheck(Adversary(CurrentPlayer)))
+            {
+                Finished = true;
+            }
+            else
+            {
+                Turn++;
+                ChangePlyaer();
+            }
+
+            
         }
 
         public void UndoMoviment(Position origin, Position destiny, Piece capturedPiece = null)
@@ -197,6 +207,39 @@ namespace chess
             }
         }
 
+        public bool CheckMateTest(Color color)
+        {
+            if (!IsInCheck(color))
+            {
+                return false;
+            }
+
+            foreach (Piece p in InGamePieces(color))
+            {
+                bool[,] mat = p.PossiblesMoviments();
+
+                for (int i = 0; i < Board.Rows; i++)
+                {
+                    for (int j = 0; j < Board.Columns; j++)
+                    {
+                        if (mat[i, j])
+                        {
+                            Position destiny = new Position(i, j);
+                            Piece capturedPiece = ToMove(p.Position,destiny);
+                            bool CheckTest = IsInCheck(color);
+                            UndoMoviment(p.Position, destiny, capturedPiece);
+                            if (!CheckTest)
+                            {
+                                return false;
+                            }
+                        }
+
+                    }
+                }
+            }
+            return true;
+        }
+
 
         public void ToSetNewPiece(char column, int row, Piece piece)
         {
@@ -206,13 +249,12 @@ namespace chess
 
         public void initializePieces()
         {
-            ToSetNewPiece('c', 1, new Tower(Board, Color.Black));
-            ToSetNewPiece('b', 2, new Tower(Board, Color.Black));
-            ToSetNewPiece('a', 3, new King(Board, Color.Black));
+            ToSetNewPiece('c', 1, new Tower(Board, Color.White));
+            ToSetNewPiece('d', 1, new King(Board, Color.White));
+            ToSetNewPiece('h', 7, new Tower(Board, Color.White));
 
-            ToSetNewPiece('d', 8, new Tower(Board, Color.White));
-            ToSetNewPiece('e', 7, new Tower(Board, Color.White));
-            ToSetNewPiece('f', 6, new King(Board, Color.White));
+            ToSetNewPiece('a', 8, new King(Board, Color.Black));
+            ToSetNewPiece('b', 8, new Tower(Board, Color.Black));
         }
     }
 }

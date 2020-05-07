@@ -45,10 +45,10 @@ namespace ChessConsole
                         Console.ReadLine();
                     }
                 }
-
-                 
-             }
-             catch (BoardException e)
+                Console.Clear();
+                Display.ToDisplayMatch(match);
+            }
+            catch (BoardException e)
              {
                  Console.WriteLine("Error: " + e.Message);
              }
