@@ -1,11 +1,16 @@
 ﻿using board;
+using System.Text.RegularExpressions;
 
 namespace chess
 {
     class Pawn : Piece
     {
-        public Pawn(Board board, Color color) : base(board, color) { }
 
+        private ChessMatch Match;
+
+        public Pawn(Board board, Color color, ChessMatch match) : base(board, color) {
+            Match = match;
+        }
         public override string ToString()
         {
             return "P";
@@ -58,6 +63,26 @@ namespace chess
                 {
                     mat[pos.Row, pos.Column] = true;
                 }
+
+                //#special moviment
+                if (Position.Row == 3)
+                {
+                    Position left = new Position(Position.Row, Position.Column - 1);
+                    
+                    if (Board.ValidPosition(left) && ThereIsAdversary(left) && Board.GetPiece(left) == Match.CanPassant)
+                    {
+                        mat[left.Row - 1, left.Column] = true;
+                    }
+
+                    Position right = new Position(Position.Row, Position.Column + 1);
+
+                    if (Board.ValidPosition(right) && ThereIsAdversary(right) && Board.GetPiece(right) == Match.CanPassant)
+                    {
+                        mat[right.Row - 1, right.Column] = true;
+                    }
+                }
+
+
             }
             else
             {
@@ -80,6 +105,24 @@ namespace chess
                 if (Board.ValidPosition(pos) && ThereIsAdversary(pos))
                 {
                     mat[pos.Row, pos.Column] = true;
+                }
+
+                //#special moviment
+                if (Position.Row == 4)
+                {
+                    Position left = new Position(Position.Row, Position.Column - 1);
+
+                    if (Board.ValidPosition(left) && ThereIsAdversary(left) && Board.GetPiece(left) == Match.CanPassant)
+                    {
+                        mat[left.Row + 1, left.Column] = true;
+                    }
+
+                    Position right = new Position(Position.Row, Position.Column + 1);
+
+                    if (Board.ValidPosition(right) && ThereIsAdversary(right) && Board.GetPiece(right) == Match.CanPassant)
+                    {
+                        mat[right.Row + 1, right.Column] = true;
+                    }
                 }
             }
             
