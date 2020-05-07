@@ -1,6 +1,8 @@
 ﻿using board;
 using System;
 using System.Collections.Generic;
+using System.Reflection.PortableExecutable;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Channels;
 
 namespace chess
@@ -14,19 +16,22 @@ namespace chess
         public HashSet<Piece> Pieces { get; set; }
         public HashSet<Piece> Captureds { get; set; }
 
+        public bool Check { get; set; }
+
         public ChessMatch()
         {
             Board = new Board(8,8);
             Turn = 1;
             CurrentPlayer = Color.White;
             Finished = false;
+            Check = false;
             Pieces = new HashSet<Piece>();
             Captureds = new HashSet<Piece>();
 
             initializePieces();
         }
 
-        public void ToMove(Position origin, Position destiny)
+        public Piece ToMove(Position origin, Position destiny)
         {
             Piece p = Board.ToRemovePiece(origin);
             p.UpdateAmtMoviments();//update amount moviments of this piece
@@ -37,6 +42,45 @@ namespace chess
             {
                 Captureds.Add(capturedPiece);
             }
+
+            return capturedPiece;
+        }
+
+        public void ToPlay(Position origin, Position destiny)
+        {
+            ToMove(origin, destiny);
+
+            if (IsInCheck(CurrentPlayer))
+            {
+                UndoMoviment(origin, destiny);
+                throw new BoardException("Você não pode se colocar em xeque");
+            }
+
+            if (IsInCheck(Adversary(CurrentPlayer)))
+            {
+                Check = true;
+            }
+            else
+            {
+                Check = false;
+            }
+
+            Turn++;
+            ChangePlyaer();
+        }
+
+        public void UndoMoviment(Position origin, Position destiny, Piece capturedPiece = null)
+        {
+            Piece p = Board.ToRemovePiece(destiny);
+            p.UpdateDecrementAmtMoviments();
+
+            if (capturedPiece != null)
+            {
+                Board.ToSetPiece(capturedPiece, destiny);
+                Captureds.Remove(capturedPiece);
+            }
+            Board.ToSetPiece(p,origin);
+
         }
 
         public HashSet<Piece> CapituredPieces(Color color)
@@ -54,12 +98,67 @@ namespace chess
             return aux;
         }
 
-
-        public void ToPlay(Position origin, Position destiny)
+        public HashSet<Piece> InGamePieces(Color color)
         {
-            ToMove(origin, destiny);
-            Turn++;
-            ChangePlyaer();
+            HashSet<Piece> aux = new HashSet<Piece>();
+
+            foreach (Piece item in Pieces)
+            {
+                if (item.Color == color)
+                {
+                    aux.Add(item);
+                }
+            }
+
+            aux.ExceptWith(CapituredPieces(color));
+
+            return aux;
+        }
+
+        public Color Adversary(Color color)
+        {
+            if (color == Color.White)
+            {
+                return Color.Black;
+            }
+            else
+            {
+                return Color.White;
+            }
+        }
+
+        public Piece King(Color color)
+        {
+            foreach (Piece x  in InGamePieces(color))
+            {
+                if (x is King)
+                {
+                    return x;
+                }
+            }
+
+            return null;
+        }
+
+        public bool IsInCheck(Color color)
+        {
+            Piece K = King(color);
+
+            if (K == null)
+            {
+                throw new BoardException("Não tem rei da cor " + color + " no tabuleiro!");
+            }
+
+            foreach (Piece item in InGamePieces(Adversary(color)))
+            {
+                bool[,] mat = item.PossiblesMoviments();
+
+                if (mat[K.Position.Row, K.Position.Column])
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void ValidateOriginPosition(Position pos)
@@ -109,10 +208,10 @@ namespace chess
         {
             ToSetNewPiece('c', 1, new Tower(Board, Color.Black));
             ToSetNewPiece('b', 2, new Tower(Board, Color.Black));
-            ToSetNewPiece('a', 3, new Tower(Board, Color.Black));
+            ToSetNewPiece('a', 3, new King(Board, Color.Black));
 
-            ToSetNewPiece('d', 8, new King(Board, Color.White));
-            ToSetNewPiece('e', 7, new King(Board, Color.White));
+            ToSetNewPiece('d', 8, new Tower(Board, Color.White));
+            ToSetNewPiece('e', 7, new Tower(Board, Color.White));
             ToSetNewPiece('f', 6, new King(Board, Color.White));
         }
     }

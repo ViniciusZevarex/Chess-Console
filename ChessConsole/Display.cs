@@ -21,6 +21,11 @@ namespace ChessConsole
 
             Console.WriteLine("Turno: " + match.Turn);
             Console.WriteLine("Aguardando jogada: " + match.CurrentPlayer);
+
+            if (match.Check)
+            {
+                Console.WriteLine("XEQUE!");
+            }
         }
 
 

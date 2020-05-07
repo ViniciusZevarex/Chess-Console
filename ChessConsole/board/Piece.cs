@@ -22,6 +22,11 @@ namespace board
             AmtMoviments++;
         }
 
+        public void UpdateDecrementAmtMoviments()
+        {
+            AmtMoviments--;
+        }
+
         public bool ThereArePossiblesMoviments()
         {
             bool[,] mat = PossiblesMoviments();
