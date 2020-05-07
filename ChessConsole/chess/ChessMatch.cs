@@ -44,6 +44,28 @@ namespace chess
                 Captureds.Add(capturedPiece);
             }
 
+            //#Special Moviment Small Rock
+            if (p is King && destiny.Column == origin.Column + 2)
+            {
+                Position originTower = new Position(origin.Row, origin.Column + 3);
+                Position destinyTower = new Position(origin.Row, origin.Column + 1);
+                Piece T = Board.ToRemovePiece(originTower);
+                T.UpdateAmtMoviments();
+                Board.ToSetPiece(T, destinyTower);
+
+            }
+
+            //#Special Moviment Small Rock
+            if (p is King && destiny.Column == origin.Column - 2)
+            {
+                Position originTower = new Position(origin.Row, origin.Column - 4);
+                Position destinyTower = new Position(origin.Row, origin.Column - 1);
+                Piece T = Board.ToRemovePiece(originTower);
+                T.UpdateAmtMoviments();
+                Board.ToSetPiece(T, destinyTower);
+
+            }
+
             return capturedPiece;
         }
 
@@ -91,6 +113,28 @@ namespace chess
             }
             Board.ToSetPiece(p,origin);
 
+
+            //#Special Moviment Small Rock
+            if (p is King && destiny.Column == origin.Column + 2)
+            {
+                Position originTower = new Position(origin.Row, origin.Column + 3);
+                Position destinyTower = new Position(origin.Row, origin.Column + 1);
+                Piece T = Board.ToRemovePiece(destinyTower);
+                T.UpdateDecrementAmtMoviments();
+                Board.ToSetPiece(T, originTower);
+
+            }
+
+            //#Special Moviment Small Rock
+            if (p is King && destiny.Column == origin.Column - 2)
+            {
+                Position originTower = new Position(origin.Row, origin.Column - 4);
+                Position destinyTower = new Position(origin.Row, origin.Column - 1);
+                Piece T = Board.ToRemovePiece(destinyTower);
+                T.UpdateAmtMoviments();
+                Board.ToSetPiece(T, originTower);
+
+            }
         }
 
         public HashSet<Piece> CapituredPieces(Color color)
@@ -253,7 +297,7 @@ namespace chess
             ToSetNewPiece('b', 1, new Horse(Board, Color.White));
             ToSetNewPiece('c', 1, new Bishop(Board, Color.White));
             ToSetNewPiece('d', 1, new Queen(Board, Color.White));
-            ToSetNewPiece('e', 1, new King(Board, Color.White));
+            ToSetNewPiece('e', 1, new King(Board, Color.White,this));
             ToSetNewPiece('f', 1, new Bishop(Board, Color.White));
             ToSetNewPiece('g', 1, new Horse(Board, Color.White));
             ToSetNewPiece('h', 1, new Tower(Board, Color.White));
@@ -272,7 +316,7 @@ namespace chess
             ToSetNewPiece('b', 8, new Horse(Board, Color.Black));
             ToSetNewPiece('c', 8, new Bishop(Board, Color.Black));
             ToSetNewPiece('d', 8, new Queen(Board, Color.Black));
-            ToSetNewPiece('e', 8, new King(Board, Color.Black));
+            ToSetNewPiece('e', 8, new King(Board, Color.Black, this));
             ToSetNewPiece('f', 8, new Bishop(Board, Color.Black));
             ToSetNewPiece('g', 8, new Horse(Board, Color.Black));
             ToSetNewPiece('h', 8, new Tower(Board, Color.Black));
