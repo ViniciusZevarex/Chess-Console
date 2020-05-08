@@ -132,10 +132,20 @@ namespace ChessConsole
         public static ChessPosition ReadChessPosition()
         {
             string s = Console.ReadLine();
+            ValidatePositionInput(s);
+
             char column = s[0];
             int row = int.Parse(s[1] + "");
 
             return new ChessPosition(column, row);
+        }
+
+        public static void ValidatePositionInput(String s)
+        {
+            if (s == "" || !Char.IsLetter(s[0]) || s[0] > 'h' || s[1] > 8)
+            {
+                throw new BoardException("Posição inválida! Insira uma posição válida!");
+            }
         }
     }
 }

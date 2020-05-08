@@ -288,15 +288,15 @@ namespace chess
         {
             if (Board.GetPiece(pos) == null)
             {
-                throw new BoardException("There aren't pice on the origin position choosed!");
+                throw new BoardException("Não existe peça na posição de origem escolhida!");
             }
             if (CurrentPlayer != Board.GetPiece(pos).Color)
             {
-                throw new BoardException("The piece origin choosed is not yours!");
+                throw new BoardException("A peça escolhida não é sua!");
             }
             if (!Board.GetPiece(pos).ThereArePossiblesMoviments())
             {
-                throw new BoardException("There aren't possibles moviments to the origin piece choosed!");
+                throw new BoardException("Não há movimentos possíveis para a peça escolhida!");
             }
         }
 
@@ -316,7 +316,7 @@ namespace chess
         {
             if (!Board.GetPiece(origin).PossibleMoviment(destiny))
             {
-                throw new BoardException("Invalid destiny position!");
+                throw new BoardException("Posição de destino inválida!");
             }
         }
 
@@ -362,6 +362,7 @@ namespace chess
 
         public void initializePieces()
         {
+            //White
             ToSetNewPiece('a', 1, new Tower(Board, Color.White));
             ToSetNewPiece('b', 1, new Horse(Board, Color.White));
             ToSetNewPiece('c', 1, new Bishop(Board, Color.White));
@@ -381,6 +382,7 @@ namespace chess
 
 
 
+            //Black
             ToSetNewPiece('a', 8, new Tower(Board, Color.Black));
             ToSetNewPiece('b', 8, new Horse(Board, Color.Black));
             ToSetNewPiece('c', 8, new Bishop(Board, Color.Black));
