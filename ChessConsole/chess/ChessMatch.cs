@@ -102,6 +102,21 @@ namespace chess
                 throw new BoardException("Você não pode se colocar em xeque");
             }
 
+            Piece p = Board.GetPiece(destiny);
+
+            //#Special Moviment: promotion
+            if (p is Pawn)
+            {
+                if ((p.Color == Color.White && destiny.Row == 0) || (p.Color == Color.Black && destiny.Row == 7))
+                {
+                    p = Board.ToRemovePiece(destiny);
+                    Pieces.Remove(p);
+                    Piece queen = new Queen(Board, p.Color);
+                    Board.ToSetPiece(queen, destiny);
+                    Pieces.Add(queen);
+                }
+            }
+
             if (IsInCheck(Adversary(CurrentPlayer)))
             {
                 Check = true;
@@ -121,7 +136,7 @@ namespace chess
                 ChangePlyaer();
             }
 
-            Piece p = Board.GetPiece(destiny);
+            
 
             //#special moviment en passant
             if (p is Pawn && (destiny.Row == origin.Row - 2) || (destiny.Row == origin.Row + 2))
