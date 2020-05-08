@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Reflection.PortableExecutable;
 using System.Security.Cryptography.X509Certificates;
 using board;
@@ -35,7 +36,7 @@ namespace ChessConsole
                 Console.WriteLine("XEQUEMATE!");
                 Console.WriteLine("Vencedor: " + match.CurrentPlayer);
             }
-            
+
         }
 
 
@@ -87,7 +88,7 @@ namespace ChessConsole
                 Console.Write(8 - i + " ");
                 for (int j = 0; j < board.Columns; j++)
                 {
-                    if (possiblePositions[i,j])
+                    if (possiblePositions[i, j])
                     {
                         Console.BackgroundColor = OtherBackgroundColor;
                     }
@@ -132,6 +133,7 @@ namespace ChessConsole
         public static ChessPosition ReadChessPosition()
         {
             string s = Console.ReadLine();
+
             ValidatePositionInput(s);
 
             char column = s[0];
@@ -140,12 +142,21 @@ namespace ChessConsole
             return new ChessPosition(column, row);
         }
 
-        public static void ValidatePositionInput(String s)
+        public static void ValidatePositionInput(string s)
         {
-            if (s == "" || !Char.IsLetter(s[0]) || s[0] > 'h' || s[1] > 8)
+            if (s == "")
             {
                 throw new BoardException("Posição inválida! Insira uma posição válida!");
             }
+
+            char c = s[0];
+            int r = int.Parse(s[1] + "");
+
+            if (!Char.IsLetter(c) || r > 8)
+            {
+                throw new BoardException("Posição inválida! Insira uma posição válida!");
+            }
+
         }
     }
 }
