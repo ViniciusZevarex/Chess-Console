@@ -142,11 +142,37 @@ namespace ChessConsole
             return new ChessPosition(column, row);
         }
 
+        public static List<char> validRowPositions()
+        {
+            List<char> letterPosition = new List<char>();
+
+            letterPosition.Add('a');
+            letterPosition.Add('A');
+            letterPosition.Add('b');
+            letterPosition.Add('B');
+            letterPosition.Add('c');
+            letterPosition.Add('C');
+            letterPosition.Add('D');
+            letterPosition.Add('d');
+            letterPosition.Add('e');
+            letterPosition.Add('E');
+            letterPosition.Add('f');
+            letterPosition.Add('F');
+            letterPosition.Add('g');
+            letterPosition.Add('G');
+            letterPosition.Add('h');
+            letterPosition.Add('H');
+
+            return letterPosition;
+        }
+
         public static void ValidatePositionInput(string s)
         {
+            List<char> letterPosition = validRowPositions();
+
             string msg = "Posição inválida! Insira uma posição válida!";
 
-            if (s == "" || s.Length != 2)
+           if (s == "" || s.Length != 2)
             {
                 throw new BoardException(msg);
             }
@@ -159,7 +185,7 @@ namespace ChessConsole
             int r = int.Parse(s[1] + "");
 
 
-            if (!Char.IsLetter(s[0]) || s[0] > 8 ||  r > 8)
+            if (!Char.IsLetter(s[0]) || letterPosition.IndexOf(s[0]) == -1 ||  r > 8)
             {
                 throw new BoardException(msg);
             }
