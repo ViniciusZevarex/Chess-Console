@@ -144,17 +144,24 @@ namespace ChessConsole
 
         public static void ValidatePositionInput(string s)
         {
-            if (s == "")
+            string msg = "Posição inválida! Insira uma posição válida!";
+
+            if (s == "" || s.Length != 2)
             {
-                throw new BoardException("Posição inválida! Insira uma posição válida!");
+                throw new BoardException(msg);
             }
 
-            char c = s[0];
+            if (!Char.IsNumber(s[1]))
+            {
+                throw new BoardException(msg);
+            }
+
             int r = int.Parse(s[1] + "");
 
-            if (!Char.IsLetter(c) || r > 8)
+
+            if (!Char.IsLetter(s[0]) || s[0] > 8 ||  r > 8)
             {
-                throw new BoardException("Posição inválida! Insira uma posição válida!");
+                throw new BoardException(msg);
             }
 
         }
