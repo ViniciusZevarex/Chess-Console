@@ -172,12 +172,7 @@ namespace ChessConsole
 
             string msg = "Posição inválida! Insira uma posição válida!";
 
-           if (s == "" || s.Length != 2)
-            {
-                throw new BoardException(msg);
-            }
-
-            if (!Char.IsNumber(s[1]))
+           if (s == "" || s.Length != 2 || !Char.IsNumber(s[1]))
             {
                 throw new BoardException(msg);
             }
